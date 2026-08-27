@@ -1,0 +1,46 @@
+[package]
+name    = "vernier"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Bounded-correction scoring module for Telegraph Protocol. Forks telegraph-wasm-baseline and adds a clamped correction layer over its four signals \u2014 the fine scale you read alongside the judge, not a replacement for it."
+
+# ── Build target ──────────────────────────────────────────────────────────────
+# cargo build --release --target wasm32-unknown-unknown --features real_weights
+# Output: target/wasm32-unknown-unknown/release/vernier.wasm
+[lib]
+name       = "vernier"
+crate-type = ["cdylib"]
+
+# ── Features ──────────────────────────────────────────────────────────────────
+#
+# real_weights  Run genuine MiniLM-L6-v2 inference from weights/minilm_l6_v2_q8.bin.
+#               Inherited from the baseline. Always build with this — the projection
+#               fallback is not semantically meaningful and will fail gate 1.
+#
+# corrections   Enable the bounded correction layer (src/corrections.rs).
+#               ON by default. Building --no-default-features yields a scorer that is
+#               behaviourally identical to telegraph-wasm-baseline, which is what
+#               `make verify-fork` uses to prove the fork did not disturb the baseline.
+[features]
+default      = ["corrections"]
+real_weights = []
+corrections  = []
+
+# ── Dependencies ──────────────────────────────────────────────────────────────
+# Identical to the baseline. Nothing added: every float operation in the correction
+# layer must route through libm for cross-validator bit-determinism, and adding any
+# crate that pulls in its own float math would break that guarantee.
+[dependencies]
+dlmalloc = { version = "0.2", features = ["global"] }
+libm     = { version = "0.2", default-features = false }
+
+# ── Release profile ───────────────────────────────────────────────────────────
+# Byte-for-byte the baseline's profile. Changing opt-level or lto here changes float
+# instruction selection, which is a determinism risk for no benefit.
+[profile.release]
+opt-level     = "z"
+lto           = true
+codegen-units = 1
+panic         = "abort"
+strip         = true

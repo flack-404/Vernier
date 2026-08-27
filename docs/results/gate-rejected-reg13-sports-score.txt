@@ -1,0 +1,38 @@
+scored in 12ms
+
+==========================================================================
+TELEGRAPH ACTIVATION GATE  —  reg13-sports-score.wasm
+sha256 e27a34eec05da3992d1a4241e27f42a14b8e58ee99365f8e45f495b7210f86e1
+corpus 1574 rows · 21 intents · epochs [248 249 250 251 252 253 254 255 256 257 258 259 260 261 263 264 265 266 267 268 269 270 271 272 273 274 275 276 277 278 279 280 281 282 283 284 285]
+EvalErrorCount 1 — rows this module could not score
+  e.g. 6b271c1d-ffb4-488b-8069-d7cf81d0ad72: write 1940656 bytes at 1048624: out of module memory bounds
+==========================================================================
+
+[1] STRUCTURAL SELF-MATCH                                        PASS
+    self-match 1.0000  must beat  cross-match 0.1832      margin +0.8168
+    21/21 intent pairs individually correct (100%, need 60%)
+
+[2] SCORE DISPERSION                                             PASS
+    stdev 0.1797  must exceed  0.0500                     margin +0.1297
+    range 0.0000 .. 1.0000 across 1573 rows
+
+[3] RANK AGREEMENT (per intent, vs published canonical)          FAIL
+    threshold 0.60 · mean rho +0.6536 · 21 groups measured, 0 unrankable
+    weakest STOCK_PRICE@-1 at +0.2007 — headroom -0.3993
+
+    GROUP                              N       RHO  
+    STOCK_PRICE                       36   +0.2007  FAIL
+    STORM_ALERT                        8   +0.2823  FAIL
+    WEATHER_CHECK                     86   +0.3202  FAIL
+    CHAT_COMPLETION                  120   +0.5101  FAIL
+    LANGUAGE_GENERATION              130   +0.5736  FAIL
+    TVL_LOOKUP                        68   +0.5917  FAIL
+    AGENT_TASK                        84   +0.6029  PASS
+    WEATHER_FORECAST                 108   +0.6211  PASS
+    ... 13 more (use -v)
+
+--------------------------------------------------------------------------
+VERDICT: rejected. The network would report:
+
+  rank agreement below threshold (0.60), got: map[STOCK_PRICE:0.20067627 STORM_ALERT:0.28231569 WEATHER_CHECK:0.3202443 CHAT_COMPLETION:0.51006967 LANGUAGE_GENERATION:0.57356863 TVL_LOOKUP:0.59167797 AGENT_TASK:0.60285613 WEATHER_FORECAST:0.62109594 CRYPTO_PRICE:0.6328356 SSL_VERIFICATION:0.65075164 NEWS_SEARCH:0.65857073 ONCHAIN_TX_LOOKUP:0.66005672 FINANCIAL_DATA:0.67143923 URL_SCAN:0.70354296 TASK_COMPLETION:0.74216105 GAS_PRICE:0.81257163 FRAUD_DETECTION:0.82408717 RESEARCH_QUERY:0.86451132 WEB_SEARCH:0.92190088 WALLET_BALANCE_CHECK:0.9340571 TOKEN_HOLDER_COUNT:0.94659803]
+--------------------------------------------------------------------------

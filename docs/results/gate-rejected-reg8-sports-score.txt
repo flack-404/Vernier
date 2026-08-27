@@ -1,0 +1,53 @@
+scored in 9ms
+
+==========================================================================
+TELEGRAPH ACTIVATION GATE  —  reg8-sports-score.wasm
+sha256 c377ce4d745515a0ec85534850a7f74ab227d8771d4b9d7178a53850dd91930b
+corpus 1574 rows · 21 intents · epochs [248 249 250 251 252 253 254 255 256 257 258 259 260 261 263 264 265 266 267 268 269 270 271 272 273 274 275 276 277 278 279 280 281 282 283 284 285]
+EvalErrorCount 1 — rows this module could not score
+  e.g. 6b271c1d-ffb4-488b-8069-d7cf81d0ad72: write 1940656 bytes at 1048624: out of module memory bounds
+==========================================================================
+
+[1] STRUCTURAL SELF-MATCH                                        FAIL
+    self-match 0.1905  must beat  cross-match 0.0000      margin +0.1905
+    4/21 intent pairs individually correct (19%, need 60%)
+    -> structural validation weak: only 4 of 21 intent pairs ranked a matching answer above an unrelated one (19%, tg-score requires 60%); means were self 0.1905 vs cross 0.0000
+
+[2] SCORE DISPERSION                                             PASS
+    stdev 0.0845  must exceed  0.0500                     margin +0.0345
+    range 0.0000 .. 1.0000 across 1573 rows
+
+[3] RANK AGREEMENT (per intent, vs published canonical)          FAIL
+    threshold 0.60 · mean rho +0.2616 · 6 groups measured, 15 unrankable
+    weakest FRAUD_DETECTION@-1 at +0.0659 — headroom -0.5341
+    WARNING: 15 group(s) scored identically for every miner — the module is not discriminating
+
+    GROUP                              N       RHO  
+    FRAUD_DETECTION                  132   +0.0659  FAIL
+    URL_SCAN                          78   +0.1221  FAIL
+    FINANCIAL_DATA                    83   +0.1412  FAIL
+    STOCK_PRICE                       36   +0.2478  FAIL
+    RESEARCH_QUERY                    54   +0.4612  FAIL
+    WEATHER_FORECAST                 108   +0.5317  FAIL
+    SSL_VERIFICATION                   8         -  candidate returned one value for every miner
+    TASK_COMPLETION                  132         -  candidate returned one value for every miner
+    ONCHAIN_TX_LOOKUP                115         -  candidate returned one value for every miner
+    LANGUAGE_GENERATION              130         -  candidate returned one value for every miner
+    AGENT_TASK                        84         -  candidate returned one value for every miner
+    GAS_PRICE                         67         -  candidate returned one value for every miner
+    STORM_ALERT                        8         -  candidate returned one value for every miner
+    NEWS_SEARCH                       48         -  candidate returned one value for every miner
+    TOKEN_HOLDER_COUNT                24         -  candidate returned one value for every miner
+    TVL_LOOKUP                        68         -  candidate returned one value for every miner
+    CRYPTO_PRICE                      74         -  candidate returned one value for every miner
+    WALLET_BALANCE_CHECK              41         -  candidate returned one value for every miner
+    WEATHER_CHECK                     86         -  candidate returned one value for every miner
+    CHAT_COMPLETION                  120         -  candidate returned one value for every miner
+    WEB_SEARCH                        77         -  candidate returned one value for every miner
+    ... 15 more (use -v)
+
+--------------------------------------------------------------------------
+VERDICT: rejected. The network would report:
+
+  structural validation weak: only 4 of 21 intent pairs ranked a matching answer above an unrelated one (19%, tg-score requires 60%); means were self 0.1905 vs cross 0.0000
+--------------------------------------------------------------------------

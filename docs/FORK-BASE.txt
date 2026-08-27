@@ -1,0 +1,82 @@
+Fork provenance
+===============
+
+vernier/ is a fork of Telegraph Protocol's published scoring module.
+
+  upstream   https://github.com/telegraphprotocol/telegraph-wasm-baseline
+  commit     dfa0cf7fda72789267811ba2190f61a8eaacedf6  ("Add MIT License to the project")
+  taken      2026-08-27
+
+Files carried over unmodified from upstream, with their checksums as taken:
+
+  1b62b6decd07035e8f18f3be25bab49ab3e7b035c183696315dcd47ce01ef340  src/allocator.rs
+  3caab2123f1bf5faed38f5d4217785d5fe754c5aa5ca645985922fc037ce9379  src/bm25.rs
+  a3014a6029157dfd1d4b197b1e4be93fe39d28aaf1ca19246db029c11338babc  src/embed.rs
+  4ea0a4f5f6473ee3f606108875534555386913a1148014bb5eda83b9ef2fe2ad  src/lib.rs
+  528a609a11fb6fb761117250a566999ba5ae1b6ab8338b5ab8a1b9c386cb1eb0  src/math.rs
+  af7103864bb436eb23b1491d50c971a8d4dbfd9eafe6e6712a8ef16d551b6ba8  src/tokenizer.rs
+  b51dcea1d0e419aa68490ac11b279a5e1367305517889216487cdb62d5164eb3  build.rs
+  07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3  vocab.txt
+  0f2839b267f215f46319e63c52b63926f276ea212db97aea4f3d4f7d7bc6675e  weights/minilm_l6_v2_q8.bin
+
+What was changed, and why each change is safe
+---------------------------------------------
+
+src/lib.rs
+  - Added `corrections` and `scan` modules, both behind the `corrections` feature.
+  - rank_answer / rank_answer_cached / breakdown_answer now route their composite
+    through corrected(), which is compiled out entirely without that feature.
+  - Added the correction_answer export.
+  The four weights, the MiniLM path and the embedded weight blob are untouched.
+
+src/allocator.rs
+  - The #[panic_handler] and #[global_allocator] are gated to
+    cfg(all(not(test), target_arch = "wasm32")).
+  Upstream leaves them ungated, which is why `cargo test` cannot build for the host
+  target and upstream's own unit tests have never run. This is upstream's own
+  suggested fix, from its README. Compile-time no-op for the wasm32 release build —
+  the baseline binary's hash is unchanged by it.
+
+src/bm25.rs
+  - Test expectation only. `exact_match_scores_high` asserted `> 0.85`, which is
+    unreachable: the score is normalised by the tf-to-infinity ceiling (K1+1), so an
+    exact match of N distinct terms scores exactly 0.4 for any N. Corrected to 0.4
+    with the arithmetic written out, and a second test added covering repetition.
+  The IMPLEMENTATION is deliberately untouched — it is what the network deploys, and
+  matching it is what earns rank agreement. #[cfg(test)] code is not compiled into
+  the wasm build at all.
+
+Build warnings
+--------------
+
+`cargo test` emits warnings that belong to upstream, not to this fork. They are left
+in place deliberately — silencing them would mean editing files we want to keep
+identical to the baseline, and every edit there is correlation risk:
+
+  unused import / dead_code   run_projection, lcg_f32 and VOCAB_SIZE are only reached
+                              in projection mode. Building --features real_weights
+                              leaves them unreferenced. Upstream warns identically.
+
+  static_mut_refs             EMBED_BUF and BREAKDOWN_BUF are upstream's static output
+                              buffers, returned to the host by offset. This is the
+                              module's ABI, not an oversight, and changing it would
+                              break every existing host.
+
+CORRECTION_BUF raises the same static_mut_refs warning for the same reason and by
+deliberate symmetry with the buffers it sits alongside.
+
+Verifying this rather than trusting it
+--------------------------------------
+
+  make wasm
+  tg-score verify -c data/corpus-smoke.json \
+      -baseline build/baseline.wasm \
+      -upstream <path to upstream telegraph_scoring.wasm> \
+      build/vernier.wasm
+
+Section [A] scores every corpus row through both binaries and compares raw float32
+bits. Result at the time of writing: 306/306 identical.
+
+Note the fork's binary is NOT byte-identical to upstream's — renaming the crate
+permutes the WASM type section, same size, same types, different order — so the
+claim under test is behavioural identity on real inputs, which is what matters.

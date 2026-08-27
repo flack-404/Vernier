@@ -1,0 +1,48 @@
+scored in 35m11.159s
+
+==========================================================================
+TELEGRAPH ACTIVATION GATE  —  baseline.wasm
+sha256 ebdcfd12cf54b8fe0a3f085834e0a0215d22d7addaae720761ab603b986d2885
+corpus 3555 rows · 21 intents · epochs [219 220 221 222 223 224 225 226 227 228 229 230 231 232 233 234 235 236 237 238 239 240 241 242 243 244 245 246 247 248 249 250 251 252 253 254 255 256 257 258 259 260 261 262 263 264 265 266 267 268 269 270 271 272 273 274 275 276 277 278 279 280 281 282 283 284 285]
+==========================================================================
+
+[1] STRUCTURAL SELF-MATCH                                        PASS
+    self-match 0.8600  must beat  cross-match 0.2445      margin +0.6155
+    21/21 intent pairs individually correct
+
+[2] SCORE DISPERSION                                             PASS
+    stdev 0.3085  must exceed  0.0500                     margin +0.2585
+    range 0.0000 .. 0.8753 across 3555 rows
+
+[3] RANK AGREEMENT (per intent, vs published canonical)          FAIL
+    threshold 0.60 · mean rho +0.8192 · 21 groups measured, 0 unrankable
+    weakest WEATHER_CHECK@-1 at +0.5180 — headroom -0.0820
+
+    GROUP                              N       RHO  
+    WEATHER_CHECK                    254   +0.5180  FAIL
+    WEATHER_FORECAST                 304   +0.5695  FAIL
+    STOCK_PRICE                       36   +0.6345  PASS
+    ONCHAIN_TX_LOOKUP                180   +0.7138  PASS
+    CHAT_COMPLETION                  400   +0.7595  PASS
+    LANGUAGE_GENERATION              410   +0.8067  PASS
+    SSL_VERIFICATION                   8   +0.8072  PASS
+    STORM_ALERT                        8   +0.8108  PASS
+    GAS_PRICE                         75   +0.8333  PASS
+    TVL_LOOKUP                        85   +0.8341  PASS
+    AGENT_TASK                       280   +0.8491  PASS
+    FINANCIAL_DATA                   131   +0.8537  PASS
+    RESEARCH_QUERY                    54   +0.8764  PASS
+    TASK_COMPLETION                  417   +0.8921  PASS
+    FRAUD_DETECTION                  226   +0.8985  PASS
+    WALLET_BALANCE_CHECK              41   +0.9021  PASS
+    CRYPTO_PRICE                      82   +0.9063  PASS
+    WEB_SEARCH                       252   +0.9279  PASS
+    TOKEN_HOLDER_COUNT                24   +0.9350  PASS
+    URL_SCAN                         128   +0.9365  PASS
+    NEWS_SEARCH                      160   +0.9383  PASS
+
+--------------------------------------------------------------------------
+VERDICT: rejected. The network would report:
+
+  rank agreement below threshold (0.60), got: map[WEATHER_CHECK:0.51797465 WEATHER_FORECAST:0.56954467 STOCK_PRICE:0.63445102 ONCHAIN_TX_LOOKUP:0.71375874 CHAT_COMPLETION:0.75950398 LANGUAGE_GENERATION:0.80669484 SSL_VERIFICATION:0.80722892 STORM_ALERT:0.81081081 GAS_PRICE:0.83332574 TVL_LOOKUP:0.83409373 AGENT_TASK:0.84907008 FINANCIAL_DATA:0.85373471 RESEARCH_QUERY:0.87644116 TASK_COMPLETION:0.8920647 FRAUD_DETECTION:0.8985172 WALLET_BALANCE_CHECK:0.90212766 CRYPTO_PRICE:0.90629521 WEB_SEARCH:0.92788857 TOKEN_HOLDER_COUNT:0.93495935 URL_SCAN:0.9365462 NEWS_SEARCH:0.93831985]
+--------------------------------------------------------------------------

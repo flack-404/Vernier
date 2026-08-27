@@ -1,0 +1,33 @@
+# Build artefacts
+vernier/target/
+build/
+tg-score/tg-score
+
+# Scored-corpus cache. Keyed by module hash and fully reproducible; a full-corpus
+# pass regenerates it. Kept out of the repo because it grows without bound as
+# candidate binaries accumulate.
+.tg-score-cache/
+*.tmp
+
+# Replay corpora. Reproduce with `tg-score pull` — the full snapshot is ~58 MB and
+# goes stale as soon as the next epoch closes, so pinning it in git would be both
+# large and misleading. docs/FINDINGS.md records which epoch every number came from.
+data/corpus-*.json
+
+# Other authors' rejected binaries. Fetched from the IPFS URLs on the public
+# registry by scripts/fetch-rejected.sh rather than vendored here.
+data/rejected/*.wasm
+
+# Secrets. .env holds a Pinata JWT and a wallet private key — anything matching
+# these patterns must never reach a commit, and `git add -A` would otherwise take
+# .env without asking. Listed before the editor noise so it is the first thing a
+# reader of this file sees.
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# Editor / OS noise
+.DS_Store
+*.swp

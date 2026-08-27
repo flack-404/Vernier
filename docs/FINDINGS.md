@@ -544,6 +544,42 @@ verifies the gateway serves the same bytes back before it will register.
 
 ---
 
+## 11. Renaming the crate changes the binary hash but not its behaviour
+
+The project was renamed from Plumbline to Vernier on 27 Aug 2026. Renaming the crate
+permutes the WASM type section — same length, same types, different order — so the
+digest changes while the module does not:
+
+```
+  as plumbline   ce745cb06df214480cb8bfabf3f6987faac944519de8b90623c48435b63fa6b0
+  as vernier     b9904e2962bc2f62aa0adc6062da68b6e0e6eca0fa85c12f040a4559254c28a6
+  both           24,192,934 bytes
+```
+
+Verified rather than assumed, across every row of the evaluation corpus:
+
+```
+$ tg-score compare -c data/corpus-recent.json build/plumbline.wasm build/vernier.wasm
+
+  rows compared      1468
+  bit-identical      1468 (100.00%)
+  changed            0 (0.00%)
+  largest change     0.0000
+
+  The two modules are behaviourally identical on this corpus.
+```
+
+The gate results are also unchanged: mean rank agreement +0.8450, weakest intent
+`CHAT_COMPLETION` at +0.6065, all three gates pass under both digests.
+
+This is the same effect noted in the toolchain section below — our fork is not
+byte-identical to upstream's build either, for exactly this reason — and it is why
+every identity claim in this repository is behavioural, checked on real inputs,
+rather than a digest comparison. It also cost a second on-chain registration; see
+[SUBMISSION.md](SUBMISSION.md).
+
+---
+
 ## Toolchain
 
 ```

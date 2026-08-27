@@ -1,0 +1,23 @@
+
+==============================================================================
+VERIFY  —  vernier.wasm
+corpus 306 rows
+==============================================================================
+
+[A] FORK INTEGRITY  —  baseline.wasm vs telegraph_scoring.wasm
+    scoring 0 / 14    scoring 14 / 14    PASS  306/306 rows scored bit-identically
+    The correction layer is the only change this fork makes.
+
+[B] CORRECTION BOUNDS  —  vernier.wasm vs baseline.wasm
+    scoring 0 / 14    scoring 14 / 14    rows changed        74 / 306 (24.18%)
+    largest change      0.120000   (clamp 0.1200)
+    PASS  no row had its score raised
+    PASS  no row exceeded the 0.12 clamp
+
+[C] CROSS-CHECK  —  Rust correction layer vs Go reference
+    PASS  306/306 rows agree exactly
+    Simulation against the Go implementation is a valid stand-in for this module.
+
+------------------------------------------------------------------------------
+VERIFY PASSED
+------------------------------------------------------------------------------

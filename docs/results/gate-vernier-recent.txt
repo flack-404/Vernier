@@ -1,44 +1,44 @@
-scored in 6m30.567s
+scored in 27.461s
 
 ==========================================================================
-TELEGRAPH ACTIVATION GATE  —  baseline.wasm
-sha256 2e45b1780d2521779684e893f92d5d0229a4f5f8ff133a671150925937621c50
+TELEGRAPH ACTIVATION GATE  —  vernier.wasm
+sha256 b9904e2962bc2f62aa0adc6062da68b6e0e6eca0fa85c12f040a4559254c28a6
 corpus 1468 rows · 20 intents · epochs [271 272 273 274 275 276 277 278 279 280 281 282 283 284 285]
 ==========================================================================
 
 [1] STRUCTURAL SELF-MATCH                                        PASS
-    self-match 0.8605  must beat  cross-match 0.2228      margin +0.6377
+    self-match 0.8605  must beat  cross-match 0.1740      margin +0.6865
     20/20 intent pairs individually correct (100%, need 60%)
 
 [2] SCORE DISPERSION                                             PASS
-    stdev 0.3103  must exceed  0.0500                     margin +0.2603
+    stdev 0.3056  must exceed  0.0500                     margin +0.2556
     range 0.0000 .. 0.8736 across 1468 rows
 
 [3] RANK AGREEMENT (per intent, vs published canonical)          PASS
-    threshold 0.60 · mean rho +0.8406 · 20 groups measured, 0 unrankable
+    threshold 0.60 · mean rho +0.8450 · 20 groups measured, 0 unrankable
     weakest CHAT_COMPLETION@-1 at +0.6065 — headroom +0.0065
 
     GROUP                              N       RHO  
     CHAT_COMPLETION                  150   +0.6065  PASS
     STOCK_PRICE                       36   +0.6345  PASS
     LANGUAGE_GENERATION              160   +0.6924  PASS
-    ONCHAIN_TX_LOOKUP                139   +0.7329  PASS
+    ONCHAIN_TX_LOOKUP                139   +0.7584  PASS
     SSL_VERIFICATION                   8   +0.8072  PASS
-    STORM_ALERT                        8   +0.8108  PASS
-    GAS_PRICE                         62   +0.8404  PASS
-    WEATHER_FORECAST                  85   +0.8497  PASS
+    STORM_ALERT                        8   +0.8378  PASS
+    GAS_PRICE                         62   +0.8423  PASS
     RESEARCH_QUERY                    30   +0.8515  PASS
-    WALLET_BALANCE_CHECK              36   +0.8719  PASS
-    WEATHER_CHECK                     49   +0.8825  PASS
-    TVL_LOOKUP                        64   +0.8846  PASS
-    CRYPTO_PRICE                      61   +0.8869  PASS
-    FINANCIAL_DATA                    70   +0.9052  PASS
-    WEB_SEARCH                        52   +0.9122  PASS
-    FRAUD_DETECTION                  153   +0.9237  PASS
-    URL_SCAN                          88   +0.9274  PASS
+    WEATHER_FORECAST                  85   +0.8529  PASS
+    TVL_LOOKUP                        64   +0.8794  PASS
+    WALLET_BALANCE_CHECK              36   +0.8869  PASS
+    WEATHER_CHECK                     49   +0.8909  PASS
+    CRYPTO_PRICE                      61   +0.8974  PASS
+    WEB_SEARCH                        52   +0.9108  PASS
+    FINANCIAL_DATA                    70   +0.9146  PASS
+    FRAUD_DETECTION                  153   +0.9210  PASS
+    NEWS_SEARCH                       28   +0.9250  PASS
+    URL_SCAN                          88   +0.9255  PASS
     TASK_COMPLETION                  165   +0.9281  PASS
-    NEWS_SEARCH                       28   +0.9294  PASS
-    TOKEN_HOLDER_COUNT                24   +0.9350  PASS
+    TOKEN_HOLDER_COUNT                24   +0.9360  PASS
 
 --------------------------------------------------------------------------
 VERDICT: all three gates pass — this module would activate.

@@ -1,5 +1,25 @@
 # Vernier
 
+**Track 2 submission — compiled module:**
+<https://github.com/flack-404/Vernier/raw/main/dist/vernier.wasm>
+
+| | |
+|---|---|
+| registration ID | **9** |
+| sha256 | `b9904e2962bc2f62aa0adc6062da68b6e0e6eca0fa85c12f040a4559254c28a6` |
+| tx | [`0xc27c13a8…990998af`](https://sepolia.basescan.org/tx/0xc27c13a87834b08e60197ca2c1336b3d3a828efeada09feba69674b8990998af) on Base Sepolia (84532) |
+| IPFS | `QmQaQsjHpFWWci9BU4kVL9gixJxJXSnzznLkf1EAmio5qQ` |
+| intents | `WEB_SEARCH`, `FINANCIAL_DATA` |
+
+The file above, the bytes IPFS serves at the registered URL, and a fresh `make rebuild`
+all produce the same digest. Check any of them:
+
+```bash
+curl -sL https://github.com/flack-404/Vernier/raw/main/dist/vernier.wasm | sha256sum
+```
+
+---
+
 **A scoring script for Telegraph Protocol, and the test rig that proves it will activate
 before you spend a transaction finding out.**
 
